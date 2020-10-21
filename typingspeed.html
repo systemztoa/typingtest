@@ -1,0 +1,131 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+ 
+   <style>
+ body{background-color:blue;
+ color:white;
+ margin:10px;
+ } 
+  
+  h1{ text-transform: capitalize;
+		
+		
+		
+		font-size: 2.1rem;  }
+
+		h2{ text-align: center; }
+  textarea{  font-size: 1.5rem;
+		}
+		
+		.mainbtn { padding: 10px 20px; 
+			border-radius: 20px;
+			border:5px solid #2980b9;
+			background:#ecf0f1;
+			font-size: 1rem;
+		}
+	
+  
+  </style>
+  
+ 
+
+</head>
+<body>
+<center><h1>Check Your Typing Speed!</h1><br/>
+<h1 id="msg"><b>Ready Steady Go!</b></h1><br/>
+<textarea id= "mywords" cols=60, rows=10></textarea><br/><br/>
+<p>
+<button id="btn" class="mainbtn" >Start</button>
+</p>
+</center>
+
+
+
+
+<script>
+	
+ const setOfWords = ["Creating a dummy data set to connect a test to an external data source.",
+  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+  "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.",
+  "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.",
+  "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam."];
+
+ const msg = document.getElementById('msg');
+ const typeWords = document.getElementById('mywords');
+ const btn = document.getElementById('btn');
+ let startTime, endTime;
+
+
+
+ const playGame = () => {
+ 	let randomNumber = Math.floor(Math.random()*setOfWords.length);
+ 	msg.innerText = setOfWords[randomNumber];
+ 	let date = new Date();
+ 	startTime = date.getTime();
+ 	btn.innerText = "Done";
+ }
+
+ const endPlay = () => {
+ 	let date = new Date();
+ 	endTime = date.getTime();
+ 	let totalTime = ((endTime - startTime)/1000);
+ 	console.log(totalTime);
+
+ 	let totalStr = typeWords.value;
+ 	let wordCount = wordCounter(totalStr);
+ 	console.log(wordCount);
+
+ 	let speed = Math.floor((wordCount/totalTime) * 60);
+ 	console.log(speed);
+
+ 	// var mybr = document.createElement('br');
+ 	
+	
+ 	let finalMsg = "You typed total at "+speed+ " words per minute.";
+ 	finalMsg += compareWords(msg.innerText, totalStr);
+ 	msg.innerText = finalMsg;
+ }
+
+  const wordCounter = (str) => {
+ 		let response  = str.split(" ").length;
+ 		return response;
+ }
+
+const compareWords = (str1, str2) => {
+	let words1 = str1.split(" ");
+	let words2 = str2.split(" ");
+	let cnt = 0;
+
+//	arrayName then foreach then it will take whole function with value and index no. of that array
+	words1.forEach(function (item, index) {
+	if (item == words2[index]) {
+			cnt++;
+		}
+	})
+
+	let errorWords = ( words1.length - cnt );
+	return (cnt + " correct out of " + words1.length + " words and the total number of error are "+ errorWords + "." );
+}
+
+ btn.addEventListener('click', function(){
+
+ 	if(this.innerText == "Start"){
+ 		typeWords.disabled = false;
+ 		playGame();
+ 	} else if(this.innerText == "Done"){
+ 		typeWords.disabled = true;
+ 		btn.innerText = "Start";
+ 		endPlay();
+ 	}
+
+ })
+
+
+</script>
+ </body>
+
+
+</html>
